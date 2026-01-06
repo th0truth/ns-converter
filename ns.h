@@ -2,10 +2,12 @@
 
 #ifndef NS_H
 #define NS_H
-#define NUM_SIZE 64
 
-void ascii_to_integer(int *res, char number[NUM_SIZE], int offset);
-void binToDec(int *n);
-void binToOctal(int *n);
+#define NUMBER_SIZE 64
+#define BUFFER_SIZE 128
+#define FORMAT_SIZE 8
+
+int extractNumberFormat(char *buffer, char *number, char *format);
+int converter(char *res, char *number, char *format);
 
 #endif

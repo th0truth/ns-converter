@@ -2,74 +2,37 @@
 #include <stdlib.h>
 #include "ns.h"
 
-#define FORMAT_SIZE 3
-#define BUFF_SIZE 67
-
-int cmp(char s1[], char s2[])
-{
-  for (int i = 0; s1[i] != '\0' && s2[i] != '\0'; i++) {
-    if (s1[i] != s2[i]) {
-      return (s1[i] > s2[i]) ? 1 : 1;
-    }
-  }
-}
-
-
-void extractNumFmt(char buff[], char number[], char format[])
-{
-  int i = 0, j = 0, space = 0;
-  for (; buff[i] != '\0'; i++) {
-    if (buff[i] != ' ') {
-      number[i] = buff[i];  
-    } else {
-      space = i;
-      break;
-    }
-  }
-  number[i+1] = '\0';
-
-  if (!space) {
-    printf("No space found");
-    exit(1);
-  }
-
-
-  for (j, i = space+1; buff[i] != '\0'; j++, i++) format[j] = buff[i];
-  buff[j+1] = '\0';
-}
-
 int main(void) {  
-  char buff[BUFF_SIZE], number[BUFF_SIZE], format[FORMAT_SIZE];
+  char buffer[BUFFER_SIZE];
+  char number[BUFFER_SIZE];
+  char format[FORMAT_SIZE];
 
-  fgets(buff, BUFF_SIZE, stdin);
+  // Store data in the buffer
+  fgets(buffer, BUFFER_SIZE, stdin);
 
-  extractNumFmt(buff, number, format);
-
-  int res = 0;
-  for (int i = 0; number[i] != '\0'; i++) {
-    if (number[i] != '0') {
-      ascii_to_integer(&res, number, 0);
-    } else if (number[i] == '0' && number[i+1] == 'b') {
-      ascii_to_integer(&res, number, 2);
-      if (cmp(format, "dec") == 0) {
-        binToDec(&res);
-      } else if (cmp(format, "octal") == 0) {
-        binToOctal(&res);
-      } else if (cmp(format, "hex") == 0) {
-        binToDec(&res);
-        printf("Output: %X\n", res);
-        return 0;
-      }  else {
-        printf("Invalid numeral-system format.");
-      }
-      break;
-    } else {
-      printf("Invalid input");
-      break;
-    }
+  // Extract number and format from buffer
+  int extract = extractNumberFormat(buffer, number, format);
+  if (extract == 1) {
+    fprintf(stderr, "Failed to extract data from buffer.\n");
+    return 1;
   }
 
-  printf("Output: %d\n", res);
+  // Allocate memory for a result 
+  char *res = malloc(BUFFER_SIZE * sizeof(char));
+  if (res == NULL) {
+    fprintf(stderr, "Failed to allocate memory.");
+    return 1;
+  }
 
+  // Convert number into specified format
+  int convert = converter(res, number, format);
+  if (convert == 1) {
+    fprintf(stderr, "Failed to convert number into specified format.\n");
+    return 1;
+  }
+
+  printf("Result: %s\n", res);
+  free(res);
+ 
   return 0;
 }
