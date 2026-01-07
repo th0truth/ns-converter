@@ -172,9 +172,37 @@ char* decToBin(const char* dec)
   char temp;
   for (int j = 0; j < i / 2; j++) {
     temp = bin[j];
-    bin[j] = bin[i-j- 1];
+    bin[j] = bin[i-j-1];
     bin[i-j-1] = temp;
   }
-
   return bin;
-} 
+}
+
+
+char* decToOctal(const char* dec)
+{
+  long decimal = ascii_to_integer(dec);
+  char* octal = malloc(65 * sizeof(char));
+  if (octal == NULL) {
+    return NULL;
+  }
+
+  int i = 0;
+  if (decimal == 0) {
+    octal[i++] = '0';
+  } else {
+    while (decimal > 0) {
+      octal[i++] = (decimal % 8) + '0';
+      decimal /= 8;
+    }
+  }
+  octal[i] = '\0';
+
+  char temp;
+  for (int j = 0; j < i / 2; j++) {
+    temp = octal[j];
+    octal[j] = octal[i-j-1];
+    octal[i-j-i] = temp;
+  }
+  return octal;
+}

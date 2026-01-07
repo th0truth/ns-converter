@@ -51,6 +51,7 @@ long ascii_to_integer(const char* number)
   return n;
 }
 
+
 int converter(char* res, const char* number, const char* format)
 {
   if (number[0] == '0') {
@@ -93,6 +94,14 @@ int converter(char* res, const char* number, const char* format)
       char* binary = decToBin(number);
       snprintf(res, BUFFER_SIZE, "%s", binary);
       free(binary);
+    } else if (compare(format, "oct") == 0) {
+      char *octal = decToOctal(number);
+      snprintf(res, BUFFER_SIZE, "%s", octal);
+      free(octal);
+    } else if (compare(format, "hex") == 0) {
+      snprintf(res, BUFFER_SIZE, "%X", ascii_to_integer(number));
+    } else {
+      return 1;
     }
   }
   return 0;
