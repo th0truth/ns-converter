@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
 
 #include "utils.h"
 #include "ns.h"
@@ -40,12 +39,12 @@ int compare(const char* s1, const char* s2)
 }
 
 
-int ascii_to_integer(const char* number)
+long ascii_to_integer(const char* number)
 {
-  int n;
+  long n = 0;
   for (int i = 0; number[i] != '\0'; i++) {
     if (number[i] > '9' || number[i] < '0') {
-      n = -1;
+      return -1;
     }
     n = n * 10 + number[i] - '0';
   }
@@ -77,6 +76,10 @@ int converter(char* res, const char* number, const char* format)
         } else {
           fprintf(stderr, "Please, enter a valid format: `dec`, `oct` or `hex`\n");
           return 1;
+        }
+      } else {
+        if (compare(format, "dec") == 0) {
+          snprintf(res, BUFFER_SIZE, "%ld", octToDec(number + 1));
         }
       }
       break;

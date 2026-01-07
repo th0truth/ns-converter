@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stdio.h>
+#include <math.h>
 
 #include "utils.h"
 #include "ns.h"
@@ -19,9 +20,9 @@ int checkBin(const char* bin)
 
 long binToDec(const char* bin)
 {
-  int decimal = 0, base = 1, reminder;
-  
-  while (*bin) {
+  int base = 1, reminder;
+  long decimal = 0; 
+  while (*bin != 0) {
     decimal = decimal * 2 + (*bin - '0');
     bin++;
   }
@@ -49,8 +50,8 @@ long binToOctal(const char* bin)
 
 long hexToDec(const char* hex)
 {
-  int decimal = 0, base = 1, i;
-  for(i = strlen(hex) - 1; i >= 0; i--) {
+  long decimal = 0;
+  for(int base = 1, i = strlen(hex) - 1; i >= 0; i--) {
     if(hex[i] >= '0' && hex[i] <= '9') {
       decimal += (hex[i] - 48) * base;
     } else if(hex[i] >= 'A' && hex[i] <= 'F') {
@@ -96,8 +97,10 @@ long hexToBin(const char* hex)
 long hexToOct(const char* hex)
 {
   int reminder, value;
-  long bin = hexToBin(hex); 
   long octal = 0ll;
+  
+  // Convert hex to bin, then bin to octal
+  long bin = hexToBin(hex); 
   for (int i = 1; bin > 0; i *= 10)
   {
     reminder = bin % 1000;
@@ -116,4 +119,16 @@ long hexToOct(const char* hex)
     bin /= 1000;
   }
   return octal;
+}
+
+
+long octToDec(const char *oct)
+{
+  long decimal = 0;
+  long octal = ascii_to_integer(oct);
+  for (int i = 0; octal != 0; i++) {
+    decimal = decimal + (octal % 10) * pow(8, i);
+    octal /= 10;
+  }
+  return decimal;
 }
