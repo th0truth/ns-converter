@@ -19,13 +19,13 @@ int checkBin(const char* bin)
 
 long binToDec(const char* bin)
 {
-  int dec = 0, base = 1, reminder;
+  int decimal = 0, base = 1, reminder;
   
   while (*bin) {
-    dec = dec * 2 + (*bin - '0');
+    decimal = decimal * 2 + (*bin - '0');
     bin++;
   }
-  return dec;
+  return decimal;
 }
 
 
@@ -34,14 +34,14 @@ long binToOctal(const char* bin)
   int octal = 0, base = 1, reminder;
 
   // Binary to decimal
-  long dec = binToDec(bin);
+  long decimal = binToDec(bin);
 
   // Decimal to octal
-  while (dec != 0) {
-    reminder = dec % 8;
+  while (decimal != 0) {
+    reminder = decimal % 8;
     octal += reminder * base;
     base *= 10;
-    dec /= 8;
+    decimal /= 8;
   }
   return octal;
 }
