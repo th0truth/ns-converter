@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -53,34 +52,40 @@ long ascii_to_integer(const char* number)
 
 int converter(char* res, const char* number, const char* format)
 {
-  for (int i = 0; number[i] != '\0'; i++) {
-    if (number[0] == '0') {
-      if ((number[1] == 'b' || number[1] == 'B') && checkBin(number + 2) == 1) {
-        if (compare(format, "dec") == 0) {
-          snprintf(res, BUFFER_SIZE, "%ld", binToDec(number + 2));
-        } else if (compare(format, "oct") == 0) {
-          snprintf(res, BUFFER_SIZE, "%ld", binToOctal(number + 2));
-        } else if (compare(format, "hex") == 0) {
-          snprintf(res, BUFFER_SIZE, "%X", binToDec(number + 2));
-        } else { return 1; }
-      } else if (number[1] == 'x' || number[1] == 'X') {
-        if (compare(format, "dec") == 0) {
-          snprintf(res, BUFFER_SIZE, "%ld", hexToDec(number + 2));
-        } else if (compare(format, "bin") == 0) {
-          snprintf(res, BUFFER_SIZE, "%ld", hexToBin(number + 2));
-        } else if (compare(format, "oct") == 0) {
-          snprintf(res, BUFFER_SIZE, "%ld", hexToOct(number + 2));
-        } else { return 1; }
-      } else {
-        if (compare(format, "dec") == 0) {
-          snprintf(res, BUFFER_SIZE, "%ld", octToDec(number + 1));
-        } else if (compare(format, "bin") == 0) {
-          snprintf(res, BUFFER_SIZE, "%ld", octToBin(number + 1));
-        } else if (compare(format, "hex") == 0) {
-          snprintf(res, BUFFER_SIZE, "%X", octToDec(number + 1));
-        } else { return 1; }
+  if (number[0] == '0') {
+    if ((number[1] == 'b' || number[1] == 'B')) {
+      if (checkBin(number + 2) != 1) {
+        return 1;
       }
-      break;
+      if (compare(format, "dec") == 0) {
+        snprintf(res, BUFFER_SIZE, "%ld", binToDec(number + 2));
+      } else if (compare(format, "oct") == 0) {
+        snprintf(res, BUFFER_SIZE, "%ld", binToOctal(number + 2));
+      } else if (compare(format, "hex") == 0) {
+        snprintf(res, BUFFER_SIZE, "%X", binToDec(number + 2));
+      } else {
+        return 1;
+      }
+    } else if (number[1] == 'x' || number[1] == 'X') {
+      if (compare(format, "dec") == 0) {
+        snprintf(res, BUFFER_SIZE, "%ld", hexToDec(number + 2));
+      } else if (compare(format, "bin") == 0) {
+        snprintf(res, BUFFER_SIZE, "%ld", hexToBin(number + 2));
+      } else if (compare(format, "oct") == 0) {
+        snprintf(res, BUFFER_SIZE, "%ld", hexToOct(number + 2));
+      } else {
+        return 1;
+      }
+    } else {
+      if (compare(format, "dec") == 0) {
+        snprintf(res, BUFFER_SIZE, "%ld", octToDec(number + 1));
+      } else if (compare(format, "bin") == 0) {
+        snprintf(res, BUFFER_SIZE, "%ld", octToBin(number + 1));
+      } else if (compare(format, "hex") == 0) {
+        snprintf(res, BUFFER_SIZE, "%X", octToDec(number + 1));
+      } else {
+        return 1;
+      }
     }
   }
   return 0;

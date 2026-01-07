@@ -29,7 +29,7 @@ int main(void) {
   // Convert number into specified format
   int convert = converter(res, number, format);
   if (convert == 1) {
-    fprintf(stderr, "Failed to convert number into specified format.\n");
+    fprintf(stderr, "An error occured while converting number.\n");
     return 1;
   }
 
