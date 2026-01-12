@@ -70,15 +70,3 @@ void* to_binary(ull decimal) {
 
   return bin;
 }
-
-// Validate binary string
-int checkBin(const char* bin) {
-  int i = 0;
-  while (bin[i] != '\0') {
-    if (bin[i] != '0' && bin[i] != '1') {
-      return 0;
-    }
-    i++;
-  }
-  return 1;
-}

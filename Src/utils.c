@@ -40,9 +40,6 @@ int converter(char* res, const char* number, const char* format) {
   ull decimal;
   if (number[0] == '0') {
     if (number[1] == 'b' || number[1] == 'B') {
-      if (checkBin(number+2) != 1) {
-        return 1;
-      }
       decimal = to_decimal(number+2, BIN);
     } else if (number[1] == 'x' || number[1] == 'X') {
       decimal = to_decimal(number+2, HEX);
@@ -65,7 +62,7 @@ int converter(char* res, const char* number, const char* format) {
     free(octal);
   } else if (compare(format, "hex") == 0) {
     snprintf(res, BUFFER_SIZE, "%X", decimal);
-  }
+  } else { return 1; }
 
   return 0;
 }

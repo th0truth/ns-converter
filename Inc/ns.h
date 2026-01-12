@@ -15,6 +15,4 @@ ull to_decimal(const char* number, int base);
 void *to_binary(ull decimal);
 void *to_octal(ull decimal);
 
-int checkBin(const char* bin);
-
 #endif
